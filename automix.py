@@ -33,14 +33,8 @@ def automix(files):
 
     combined_win_rms = chan1_win_rms + chan2_win_rms
 
-    chan1_db = rms_to_db(chan1_win_rms)
-    chan2_db = rms_to_db(chan2_win_rms)
-    combined_db = rms_to_db(combined_win_rms)
-    chan1_diff_db = combined_db - chan1_db
-    chan2_diff_db = combined_db - chan2_db
-
-    chan1_attenuated = chan1 * db_to_float(0 - chan1_diff_db)
-    chan2_attenuated = chan2 * db_to_float(0 - chan2_diff_db)
+    chan1_attenuated = chan1 * np.reciprocal(combined_win_rms/chan1_win_rms)
+    chan2_attenuated = chan2 * np.reciprocal(combined_win_rms/chan2_win_rms)
 
     mixed = chan1_attenuated + chan2_attenuated
 
